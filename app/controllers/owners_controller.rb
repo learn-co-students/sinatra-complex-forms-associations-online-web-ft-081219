@@ -43,4 +43,3 @@ redirect "owners/#{@owner.id}"
     redirect "owners/#{@owner.id}"
   end
 end
-end

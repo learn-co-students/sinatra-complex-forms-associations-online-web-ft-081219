@@ -15,11 +15,12 @@ class PetsController < ApplicationController
 
     if !params["owner"]["name"].empty?
       owner = Owner.create(name:params["owner"]["name"])
-    else
+      owner.pets << @pet
+    elsif !!params["pet"]["owner_id"] #allows for ther to be NO OWNER
       owner = Owner.find_by(id:params["pet"]["owner_id"])
+      owner.pets << @pet
     end
-    owner.pets << @pet
-
+    
     redirect to "pets/#{@pet.id}"
   end
 
@@ -35,7 +36,6 @@ class PetsController < ApplicationController
   end
 
   patch '/pets/:id' do 
-    # binding.pry
     if !params[:pet].keys.include?("owner_id")
       params[:owner]["owner_id"] = ""
     end
